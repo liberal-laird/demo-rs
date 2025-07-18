@@ -1,6 +1,10 @@
 use color_eyre::Result;
 use crossterm::event::{self, Event};
-use ratatui::{DefaultTerminal, Frame};
+use ratatui::{
+    DefaultTerminal, Frame,
+    text::Line,
+    widgets::{Block, Borders, Paragraph},
+};
 
 fn main() -> Result<()> {
     color_eyre::install()?;
@@ -22,5 +26,17 @@ fn run(mut terminal: DefaultTerminal) -> Result<()> {
 }
 
 fn render(frame: &mut Frame) {
-    frame.render_widget("Hello world", frame.area());
+    let b = Block::default()
+        .title(Line::from("Left Title").left_aligned())
+        .title(Line::from("Middle Title").centered())
+        .title(Line::from("Right Title").right_aligned())
+        .borders(Borders::ALL);
+
+    frame.render_widget(b.clone(), frame.area());
+
+    let content = Paragraph::new("Hello").alignment(ratatui::layout::Alignment::Center);
+
+    let inner = b.inner(frame.area());
+
+    frame.render_widget(content, inner);
 }
