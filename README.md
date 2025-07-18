@@ -1,3 +1,3 @@
 # demo-rs
-hello
+0
 rust-demo
